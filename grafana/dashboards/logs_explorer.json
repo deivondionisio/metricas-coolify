@@ -1,0 +1,51 @@
+{
+  "title": "Logs Explorer (Loki)",
+  "tags": [
+    "coolify",
+    "logs",
+    "loki"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "container",
+        "type": "query",
+        "datasource": {
+          "type": "loki",
+          "uid": "loki"
+        },
+        "refresh": 1,
+        "query": {
+          "query": "label_values({compose_project=~'.*'}, container)",
+          "refId": "A"
+        },
+        "includeAll": false,
+        "multi": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "logs",
+      "title": "Logs por container",
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "targets": [
+        {
+          "expr": "{container=~\"$container\"}"
+        }
+      ],
+      "gridPos": {
+        "h": 20,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1,
+  "editable": true
+}

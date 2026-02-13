@@ -1,0 +1,87 @@
+{
+  "title": "Containers Overview (cAdvisor)",
+  "tags": [
+    "coolify",
+    "containers",
+    "prometheus"
+  ],
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "CPU por container (cores)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image!=''}[5m]))",
+          "legendFormat": "{{name}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Mem\u00f3ria por container",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "max by (name) (container_memory_usage_bytes{image!=''})",
+          "legendFormat": "{{name}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Leitura/Escrita de disco (bytes/s)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "targets": [
+        {
+          "expr": "sum by (name) (rate(container_fs_reads_bytes_total{image!=''}[5m]))",
+          "legendFormat": "{{name}} read"
+        },
+        {
+          "expr": "sum by (name) (rate(container_fs_writes_bytes_total{image!=''}[5m]))",
+          "legendFormat": "{{name}} write"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps"
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      }
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1,
+  "editable": true
+}
